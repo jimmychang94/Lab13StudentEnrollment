@@ -13,11 +13,21 @@ namespace Lab13StudentEnrollment.Controllers
     {
         private Lab13StudentEnrollmentDbContext _context;
 
+        /// <summary>
+        /// This makes sure that controller has a database
+        /// </summary>
+        /// <param name="context">The database</param>
         public CourseController(Lab13StudentEnrollmentDbContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// This is the index page of the courses, it also serves as the list of courses
+        /// It also serves as a filter for the courses
+        /// </summary>
+        /// <param name="searchString">A way to filter what courses are shown</param>
+        /// <returns>The view of the index page</returns>
         [HttpGet]
         public async Task<IActionResult> Index(string searchString)
         {
@@ -36,6 +46,12 @@ namespace Lab13StudentEnrollment.Controllers
             }
         }
 
+        /// <summary>
+        /// This is the details page of a specific course.
+        /// It shows not only the basic information of the course but also all the students in the course
+        /// </summary>
+        /// <param name="id">This makes sure that this is a valid course</param>
+        /// <returns>The view of the specified course</returns>
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
@@ -49,15 +65,25 @@ namespace Lab13StudentEnrollment.Controllers
 
                 return View(courseStudent);
             }
+            // If the user put in an invalid course id, then they are sent back to the home page.
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// This allows for a new course to be made.
+        /// </summary>
+        /// <returns>This returns the create page</returns>
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// This takes in the new course information and then adds it to the database
+        /// </summary>
+        /// <param name="course">This is the course to be added</param>
+        /// <returns>This returns the user back to the index page of the courses</returns>
         [HttpPost]
         public async Task<IActionResult> Create([Bind("ID, Name, Description")]Course course)
         {
@@ -66,6 +92,11 @@ namespace Lab13StudentEnrollment.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// This allows for a course to be updated.
+        /// </summary>
+        /// <param name="id">This makes sure that the id is valid</param>
+        /// <returns>The update view page</returns>
         [HttpGet]
         public async Task<IActionResult> Update(int? id)
         {
@@ -74,9 +105,15 @@ namespace Lab13StudentEnrollment.Controllers
                 Course course = await _context.Courses.FirstOrDefaultAsync(s => s.ID == id);
                 return View(course);
             }
+            // THis sends the user back to the home page if they put in an invalid course ID.
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// This returns the coruse that is to be updated in the database.
+        /// </summary>
+        /// <param name="course">The course to be updated</param>
+        /// <returns>This redirects the user back to the index page of the courses</returns>
         [HttpPost]
         public async Task<IActionResult> Update([Bind("ID, Name, Description")]Course course)
         {
@@ -85,6 +122,11 @@ namespace Lab13StudentEnrollment.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// This deletes a course from the database
+        /// </summary>
+        /// <param name="id">This is the id of the course to be deleted</param>
+        /// <returns>This redirects the user back to the index page of the courses</returns>
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -93,12 +135,14 @@ namespace Lab13StudentEnrollment.Controllers
 
             if (courseStudent.Course == null)
             {
+                // If there is no course at the ID provided, the user is sent to the NotFound error page.
                 return NotFound();
             }
 
             courseStudent.Student = await _context.Students.FirstOrDefaultAsync(s => s.CourseID == id);
             if (courseStudent.Student != null)
             {
+                // If the course still has students in it, the user will be sent to this error page
                 return RedirectToAction("Error");
             }
 
@@ -108,6 +152,10 @@ namespace Lab13StudentEnrollment.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// This is an error page for when the user tries to delete a course with a student still enrolled.
+        /// </summary>
+        /// <returns>The error page</returns>
         public IActionResult Error()
         {
             return View();

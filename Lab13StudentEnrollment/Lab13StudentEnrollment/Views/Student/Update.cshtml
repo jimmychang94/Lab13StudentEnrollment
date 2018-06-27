@@ -16,6 +16,8 @@
             <h4><label asp-for="Student.CourseID" class="col-sm-3 col-form-label">Course</label></h4>
             <div class="col-sm-9">
                 <select asp-for="Student.CourseID" class="form-control">
+                    @*This foreach makes the selection for the courses dynamic;
+                        it increases or decreases in size based off of the number of courses.*@
                     @foreach (var course in Model.courses)
                     {
                         <option value="@course.ID">@course.Name</option>

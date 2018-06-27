@@ -1,0 +1,32 @@
+﻿@model Course
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="~/StyleSheet.css" rel="stylesheet" />
+
+<div class="container" style="margin-top: 20px;">
+    <h2>Create a Course</h2>
+    <form method="post" asp-action="Create">
+        <div class="form-group row">
+            <h4><label asp-for="Name" class="col-sm-3 col-form-label">Name </label></h4>
+            <div class="col-sm-9">
+                <input asp-for="Name" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <h4><label asp-for="Description" class="col-sm-3 col-form-label">Description</label></h4>
+            <div class="col-sm-9">
+                <input type="text" asp-for="Description" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-9 offset-sm-3">
+                <input type="submit" class="btn btn-primary" value="Create" />
+            </div>
+        </div>
+
+    </form>
+
+    <div>
+        <a asp-action="Index">Back to Course List</a>
+    </div>
+</div>

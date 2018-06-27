@@ -1,0 +1,45 @@
+﻿@model List<Lab13StudentEnrollment.Models.Course>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="~/StyleSheet.css" />
+
+<div class="container" style="margin-top:20px;">
+    <form asp-controller="Course" asp-action="Index" method="get">
+        <p>
+            Search for specific names: <input type="text" name="SearchString" />
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Course Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model)
+            {
+                <tr>
+                    <td>@course.Name</td>
+                    <td>@course.Description</td>
+                    <td><a asp-action="Update" asp-route-id="@course.ID">Update Course</a></td>
+                    <td><a asp-action="Details" asp-route-id="@course.ID">More Details</a></td>
+                    <td><a asp-action="Delete" asp-route-id="@course.ID">Delete Course</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <a asp-action="Create">Create New</a>
+        <br />
+        <br />
+        <a asp-controller="Course" asp-action="Index">Course List</a>
+        <br />
+        <br />
+        <a asp-controller="Student" asp-action="Index">Student List</a>
+        <br />
+        <br />
+        <a asp-controller="Home" asp-action="Index">Let's go back home</a>
+    </div>
+</div>

@@ -10,6 +10,7 @@
     <br />
     <h4 class="row">Students:</h4>
     <ul>
+        @*This foreach loop shows the students that are currently enrolled in this course*@
         @foreach (var student in Model.students)
         {
             <li>@student.Name</li>
